@@ -5,6 +5,7 @@ Ensure these env vars are set:
 Then for the repo you want to enable codeclimate on:
 ```shell
 $ cd /my/repo
-$ npm i -D enable-codeclimate
+$ npm i -D enable-codeclimate # OR
+$ npm i -g enable-codelimate
 $ npx enable-codeclimate
 ```

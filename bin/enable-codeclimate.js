@@ -17,43 +17,49 @@ repoUrl.href = repoUrl.href.replace(/^git:/, 'https:');
 console.log('Enable code climate on repository:', repoUrl.href);
 
 async function main () {
-  await rp({
-    method: 'get',
-    uri: `https://api.codeclimate.com/v1/orgs/${orgId}/repos`,
-    headers: {
-      Authorization: `Token token=${token}`
-    },
-    json: true
-  }).then((resp) => {
-    const repos = (resp.data.map((r) => r.attributes.github_slug));
-    const repoSlug = repoUrl.pathname.replace(/^\//, '');
-    if (repos.includes(repoSlug)) {
-      console.log('Repo already added, not adding.');
-      process.exit(0);
-    }
-  });
-
-  rp({
-    method: 'post',
-    uri: `https://api.codeclimate.com/v1/orgs/${orgId}/repos`,
-    headers: {
-      Authorization: `Token token=${token}`
-    },
-    body: {
-      data: {
-        type: 'repos',
-        attributes: {
-          url: repoUrl.href
-        }
+  let repo;
+  try {
+    await rp({
+      method: 'get',
+      uri: `https://api.codeclimate.com/v1/orgs/${orgId}/repos`,
+      headers: {
+        Authorization: `Token token=${token}`
+      },
+      json: true
+    }).then((resp) => {
+      const repoSlug = repoUrl.pathname.replace(/^\//, '');
+      const repos = resp.data;
+      repo = repos.find((r) => r.attributes.github_slug === repoSlug);
+      if (repo) {
+        console.log('Repo already added, not adding.');
       }
-    },
-    json: true
-  }).then((resp) => {
-    console.log('done', resp);
-  }).catch((err) => {
+    });
+
+    if (!repo) {
+      repo = await rp({
+        method: 'post',
+        uri: `https://api.codeclimate.com/v1/orgs/${orgId}/repos`,
+        headers: {
+          Authorization: `Token token=${token}`
+        },
+        body: {
+          data: {
+            type: 'repos',
+            attributes: {
+              url: repoUrl.href
+            }
+          }
+        },
+        json: true
+      }).data;
+    }
+    console.log('done', repo.links.self);
+    console.log('Test reporter settings:', repo.links.self + '/settings/test_reporter');
+  } catch (err) {
     if (err.statusCode && err.message) return console.error(err.message);
     console.error('error:', err);
-  });
+    console.error(err);
+  }
 }
 
 main();
