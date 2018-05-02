@@ -1,0 +1,27 @@
+{
+  "name": "enable-codeclimate",
+  "version": "0.0.1",
+  "description": "Script to enable code climate on a repository.",
+  "main": "index.js",
+  "bin": {
+    "enable-codeclimate": "./bin/enable-codeclimate.js"
+  },
+  "dependencies": {
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noblesamurai/enable-codeclimate.git"
+  },
+  "keywords": [
+    "codeclimate"
+  ],
+  "author": "Tim Allen <tim@noblesamurai.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/noblesamurai/enable-codeclimate/issues"
+  },
+  "homepage": "https://github.com/noblesamurai/enable-codeclimate#readme"
+}
