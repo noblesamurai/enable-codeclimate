@@ -55,6 +55,8 @@ async function main () {
     }
     console.log('done', repo.links.self);
     console.log('Test reporter settings:', repo.links.self + '/settings/test_reporter');
+    console.log('Following the above link will enable you to get the token used by the code coverage reporter.');
+    console.log('The environment variable you should set in your CI system is called CC_TEST_REPORTER_ID.');
   } catch (err) {
     if (err.statusCode && err.message) return console.error(err.message);
     console.error('error:', err);
