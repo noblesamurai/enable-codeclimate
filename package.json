@@ -1,6 +1,6 @@
 {
   "name": "enable-codeclimate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Script to enable code climate on a repository.",
   "main": "index.js",
   "bin": {
